@@ -67,13 +67,13 @@ Layanan:
 
 ### Endpoint Backend
 
-| Method | Path            | Deskripsi                  |
-|--------|-----------------|---------------------------|
+| Method | Path                 | Deskripsi                                 |
+| ------ | -------------------- | ----------------------------------------- |
 | POST   | `/api/auth/register` | Registrasi user baru (sinkron ke InvGate) |
-| POST   | `/api/auth/login`    | Login (JWT)              |
-| POST   | `/api/tickets`       | Kirim ticket ke InvGate  |
-| GET    | `/api/tickets`       | Daftar ticket user       |
-| GET    | `/api/tickets/{id}`  | Detail ticket + komentar |
+| POST   | `/api/auth/login`    | Login (JWT)                               |
+| POST   | `/api/tickets`       | Kirim ticket ke InvGate                   |
+| GET    | `/api/tickets`       | Daftar ticket user                        |
+| GET    | `/api/tickets/{id}`  | Detail ticket + komentar                  |
 
 Semua endpoint `/api/tickets` membutuhkan header `Authorization: Bearer <token>`.
 
@@ -99,4 +99,3 @@ resp, err := invgateService.CreateTicket(ctx, payload)
 ```
 
 Service menggunakan `net/http` + Basic Auth (`ARMMADA_USERNAME/PASSWORD`) dan otomatis menambahkan `ARMMADA_PAGE_KEY` untuk pagination saat mengambil daftar ticket.
-
