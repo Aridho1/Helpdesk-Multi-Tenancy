@@ -29,12 +29,33 @@ const loadTenants = async () => {
         isLoading.value = true;
         const data = await tenantApi.list();
         tenants.value = data;
+
+        if (tenantStore.tenant) {
+            selectedTenant.value = tenants.value.find((t) => t.id === tenantStore.tenant?.id) || null;
+        }
     } catch (error) {
         console.error("Failed to load tenants", error);
     } finally {
         isLoading.value = false;
     }
 };
+
+// const loadTenants = async () => {
+//     if (!isSuperAdmin.value) return;
+
+//     try {
+//         isLoading.value = true;
+//         const data = await tenantApi.list();
+//         tenants.value = data;
+//         console.log("Loaded tenants", data);
+//         console.log("store", tenantStore);
+//         console.log("tenant", tenantStore.tenant?.id);
+//     } catch (error) {
+//         console.error("Failed to load tenants", error);
+//     } finally {
+//         isLoading.value = false;
+//     }
+// };
 
 // Watch for auth state changes to load tenants once admin is confirmed
 watch(
@@ -73,13 +94,10 @@ const onTenantChange = (event: { value: TenantPublicInfo }) => {
     <div v-if="isSuperAdmin" class="tenant-switcher">
         <Select v-model="selectedTenant" :options="tenants" optionLabel="name" placeholder="Select Tenant" class="tenant-dropdown" :loading="isLoading" @change="onTenantChange">
             <template #value="slotProps">
-                <div v-if="slotProps.value" class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
                     <i class="pi pi-building text-sm"></i>
-                    <span>{{ slotProps.value.name }}</span>
+                    <span>{{ slotProps.value?.name ?? slotProps.placeholder }}</span>
                 </div>
-                <span v-else>
-                    {{ slotProps.placeholder }}
-                </span>
             </template>
             <template #option="slotProps">
                 <div class="flex items-center gap-2">
