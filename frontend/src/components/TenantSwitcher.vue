@@ -25,6 +25,8 @@ const isSuperAdmin = computed(() => {
 const loadTenants = async () => {
     if (!isSuperAdmin.value) return;
 
+    console.log("Loading tenants...", tenantStore, tenants);
+
     try {
         isLoading.value = true;
         const data = await tenantApi.list();
@@ -85,7 +87,7 @@ const onTenantChange = (event: { value: TenantPublicInfo }) => {
     toast.info(`Switched to ${newTenant.name}`);
 
     setTimeout(() => {
-        // window.location.reload();
+        window.location.reload();
     }, 500);
 };
 </script>
